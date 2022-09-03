@@ -3,10 +3,10 @@ package main
 import (
 	"fmt"
 
-	"github.com/nikolazifra/go-samples"
+	"github.com/nikolazifra/go-samples/hello1034"
 )
 
 func main() {
-	fmt.Println(samples.Hello())
+	fmt.Println(hello1034.Hello())
 
 }

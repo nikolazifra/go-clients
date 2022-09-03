@@ -2,7 +2,7 @@ module github.com/nikolazifra/go-clients
 
 go 1.18
 
-require github.com/nikolazifra/go-samples v0.1.2
+require github.com/nikolazifra/go-samples v0.2.0
 
 require (
 	golang.org/x/text v0.3.6 // indirect

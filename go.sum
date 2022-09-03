@@ -1,5 +1,9 @@
 github.com/nikolazifra/go-samples v0.1.2 h1:EoVsFOp5SGSBcv8RpbRDILj7op/3yjEIpDZE/T5M9eI=
 github.com/nikolazifra/go-samples v0.1.2/go.mod h1:Yt6UNk1Mku5NTVyl0o4FgN4k8gXY7jJ6s/qRoXyUflI=
+github.com/nikolazifra/go-samples v0.1.3 h1:GggYcxOLF/PqmEYav4L1/ccoYNna4bmzIRgemmvb5b0=
+github.com/nikolazifra/go-samples v0.1.3/go.mod h1:Yt6UNk1Mku5NTVyl0o4FgN4k8gXY7jJ6s/qRoXyUflI=
+github.com/nikolazifra/go-samples v0.2.0 h1:tx3X5vOMgL7LhlrLokrLZCrkChXP/YnVp2khbwVq5Nc=
+github.com/nikolazifra/go-samples v0.2.0/go.mod h1:Yt6UNk1Mku5NTVyl0o4FgN4k8gXY7jJ6s/qRoXyUflI=
 golang.org/x/exp v0.0.0-20220827204233-334a2380cb91 h1:tnebWN09GYg9OLPss1KXj8txwZc6X6uMr6VFdcGNbHw=
 golang.org/x/text v0.0.0-20170915032832-14c0d48ead0c/go.mod h1:NqM8EUOU14njkJ3fqMW+pc6Ldnwhi/IjpwHt7yyuwOQ=
 golang.org/x/text v0.3.6 h1:aRYxNxv6iGQlyVaZmk6ZgYEDa+Jg18DxebPSrd6bg1M=
