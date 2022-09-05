@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"sync"
 )
 
 type Stats struct {
@@ -29,8 +30,15 @@ func main() {
 		},
 	}
 	byteArray, err := json.Marshal(character)
+	var wg sync.WaitGroup
+	wg.Add(1)
+	go func() {
+		fmt.Println(string(byteArray))
+		wg.Done()
+	}()
+	wg.Wait()
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(string(byteArray))
+
 }
