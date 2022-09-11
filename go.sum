@@ -1,5 +1,11 @@
+github.com/benchkram/errz v0.0.0-20211210135050-f997ca868855 h1:6OwqxgpGqSF1Ykt4POxIQ5RNGHYXGhSwu3ycqNr0i7o=
+github.com/benchkram/errz v0.0.0-20211210135050-f997ca868855/go.mod h1:VhSTxJDYHsnEd6oPg2/j4ifmEI9L9AgUam7D65gUn9g=
+github.com/go-logr/logr v1.2.0 h1:QK40JKJyMdUDz+h+xvCsru/bJhvG0UxvePV0ufL/AcE=
+github.com/go-logr/logr v1.2.0/go.mod h1:jdQByPbusPIv2/zmleS9BjJVeZ6kBagPoEUsqbVz/1A=
 github.com/nikolazifra/go-samples v0.2.0 h1:tx3X5vOMgL7LhlrLokrLZCrkChXP/YnVp2khbwVq5Nc=
 github.com/nikolazifra/go-samples v0.2.0/go.mod h1:Yt6UNk1Mku5NTVyl0o4FgN4k8gXY7jJ6s/qRoXyUflI=
+github.com/pkg/errors v0.9.1 h1:FEBLx1zS214owpjy7qsBeixbURkuhQAwrK5UwLGTwt4=
+github.com/pkg/errors v0.9.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
 golang.org/x/text v0.0.0-20170915032832-14c0d48ead0c/go.mod h1:NqM8EUOU14njkJ3fqMW+pc6Ldnwhi/IjpwHt7yyuwOQ=
 golang.org/x/text v0.3.6 h1:aRYxNxv6iGQlyVaZmk6ZgYEDa+Jg18DxebPSrd6bg1M=
 golang.org/x/text v0.3.6/go.mod h1:5Zoc/QRtKVWzQhOtBMvqHzDpF6irO9z98xDceosuGiQ=

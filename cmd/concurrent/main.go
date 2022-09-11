@@ -9,6 +9,9 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/benchkram/errz"
+	err "github.com/pkg/errors"
 )
 
 const (
@@ -17,7 +20,6 @@ const (
 )
 
 func main() {
-
 	fmt.Printf("Cores:%d\n", runtime.NumCPU())
 	ctx, cancel := context.WithCancel(context.Background())
 	lineRead := make(chan string, 2)
@@ -27,18 +29,12 @@ func main() {
 		defer wg.Done()
 		var fileName = "sample-file.txt"
 		file, err := os.Open(fileName)
-		if err != nil {
-			fmt.Printf("failed opening file: %s", err)
-			return
-		} else {
-			fmt.Println("Ok!!!")
-		}
+		errz.Fatalf(err, "File %s could not be found.", fileName)
 		scanner := bufio.NewScanner(file)
 		scanner.Split(bufio.ScanLines)
 		for scanner.Scan() {
 			lineRead <- scanner.Text()
 			fmt.Println(">", scanner.Text())
-			//time.Sleep(200 * time.Millisecond)
 		}
 		file.Close()
 		cancel()
@@ -46,24 +42,26 @@ func main() {
 
 	// goroutine to read file line by line and passing to channel to print
 	wg.Add(1)
-	go func() {
+	go func(context.Context) {
 		defer wg.Done()
 		var b strings.Builder
 		for {
 			select {
 			case <-ctx.Done():
-				fmt.Println("process stopped. reason: ", ctx.Err())
+				errz.Log(err.Wrap(ctx.Err(), "Cancel encountered"))
 				fmt.Println(b.String())
 				return
 			case line := <-lineRead:
-				fmt.Println("*", line)
-				b.WriteString(line)
-				b.WriteString("\n")
+				var l strings.Builder
+				l.WriteString(line)
+				l.WriteString("\n")
+				fmt.Println("*", l.String())
+				b.WriteString(l.String())
 			case <-time.After(time.Microsecond):
 				fmt.Println("Chilling out for 1 microsec...")
 			}
 		}
-	}()
+	}(ctx)
 
 	wg.Wait()
 	test := make(chan int, 3)
@@ -71,7 +69,7 @@ func main() {
 	test <- 4
 	test <- 5
 	fmt.Println("Terminating...")
-
+	// type function tests..
 	type tFunc func(int, int) int
 	var f tFunc = func(x int, y int) int { return x + y }
 	fmt.Println(f(1, 0))
