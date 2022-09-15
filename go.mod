@@ -11,6 +11,7 @@ require (
 require (
 	github.com/go-logr/logr v1.2.0 // indirect
 	golang.org/x/text v0.3.6 // indirect
+	golang.org/x/time v0.0.0-20220722155302-e5dcc9cfc0b9 // indirect
 	rsc.io/quote v1.5.2 // indirect
 	rsc.io/sampler v1.3.0 // indirect
 
