@@ -3,6 +3,9 @@ package main
 
 import (
 	"fmt"
+	"strconv"
+	"strings"
+	"sync"
 	"time"
 
 	"golang.org/x/time/rate"
@@ -22,7 +25,16 @@ func doSomethingLowPriority() {
 	fmt.Println("default action")
 }
 
-func sendTick(rateLimiter chan<- bool) {
+func sendTick(rateLimiter chan<- bool, k int, m map[string]string, mutex *sync.Mutex) {
+	b := strings.Builder{}
+	ks := strconv.Itoa(k)
+	b.WriteString("hi_")
+	b.WriteString(ks)
+	fmt.Println("-- Lock acquired by goroutine:", k)
+	mutex.Lock()
+	m[ks] = b.String()
+	mutex.Unlock()
+	fmt.Println("-- Releasing mutex lock")
 	rate := time.Tick(time.Second)
 	for range rate {
 		rateLimiter <- true
@@ -43,8 +55,10 @@ func receive(rateLimiter <-chan bool) {
 
 func main() {
 	rateLimiter := make(chan bool)
-	for i := 0; i < 1000; i++ {
-		go sendTick(rateLimiter)
+	sm := make(map[string]string, 10000)
+	var mutex *sync.Mutex = &sync.Mutex{}
+	for i := 0; i < 10000; i++ {
+		go sendTick(rateLimiter, i, sm, mutex)
 	}
 	limitter := rate.NewLimiter(10, 1)
 	for {
