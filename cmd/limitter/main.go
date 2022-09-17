@@ -30,11 +30,12 @@ func sendTick(rateLimiter chan<- bool, k int, m map[string]string, mutex *sync.M
 	ks := strconv.Itoa(k)
 	b.WriteString("hi_")
 	b.WriteString(ks)
-	fmt.Println("-- Lock acquired by goroutine:", k)
 	mutex.Lock()
+	fmt.Println("-- Lock acquired by goroutine:", k)
 	m[ks] = b.String()
-	mutex.Unlock()
 	fmt.Println("-- Releasing mutex lock")
+	mutex.Unlock()
+
 	rate := time.Tick(time.Second)
 	for range rate {
 		rateLimiter <- true
@@ -54,10 +55,10 @@ func receive(rateLimiter <-chan bool) {
 }
 
 func main() {
-	rateLimiter := make(chan bool)
-	sm := make(map[string]string, 10000)
+	rateLimiter := make(chan bool, 3)
+	sm := make(map[string]string, 4000000)
 	var mutex *sync.Mutex = &sync.Mutex{}
-	for i := 0; i < 10000; i++ {
+	for i := 0; i < 4000000; i++ {
 		go sendTick(rateLimiter, i, sm, mutex)
 	}
 	limitter := rate.NewLimiter(10, 1)
