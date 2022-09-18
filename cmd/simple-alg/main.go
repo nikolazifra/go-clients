@@ -58,6 +58,6 @@ func SpecialArray(n int, arr []int) []int {
 func main() {
 	fmt.Println("Result is", SpecialArray(3, []int{2, 10, 23}))
 	fmt.Println("Result is", SpecialArray(5, []int{4, 5, 10, 14, 8}))
-	fmt.Println("Result is", SpecialArray(3, []int{3, 11, 97, 99, 98}))
+	fmt.Println("Result is", SpecialArray(3, []int{3, 11, 97, 99}))
 	fmt.Println("Result is", SpecialArray(3, []int{12, 3, 43, 91, 72, 6, 53, 21, 9}))
 }

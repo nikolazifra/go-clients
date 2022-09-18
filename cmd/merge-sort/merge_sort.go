@@ -34,6 +34,9 @@ func MergeSort(items []int) ([]int, int) {
 	first, l := MergeSort(items[:x])
 	second, r := MergeSort(items[x:])
 	result, m := merge(first, second, x)
+	if l+r+m > 100000000 {
+		return result, -1
+	}
 	return result, l + r + m
 }
 
@@ -47,7 +50,7 @@ func main() {
 		}
 		r <- result
 
-	}(r, 1000)
+	}(r, 10000000)
 
 	s1, i1 := MergeSort([]int{-1, 6, 3, 4, 7, 4})
 	fmt.Println(s1, i1)
@@ -61,6 +64,6 @@ func main() {
 	s4, i4 := MergeSort([]int{8, 4, 2, 1})
 	fmt.Println(s4, i4)
 	a := <-r
-	s5, i5 := MergeSort(a)
-	fmt.Println(s5, i5)
+	_, i5 := MergeSort(a)
+	fmt.Println(i5)
 }
