@@ -1,9 +1,13 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 func merge(a []int, b []int, m int) ([]int, int) {
 	result := make([]int, 0, len(a)+len(b))
+	//result := []int{}
 	i := 0
 	j := 0
 	inv := 0
@@ -31,9 +35,9 @@ func MergeSort(items []int) ([]int, int) {
 		return items, 0
 	}
 	x := len(items) / 2
-	first, l := MergeSort(items[:x])
-	second, r := MergeSort(items[x:])
-	result, m := merge(first, second, x)
+	l_arr, l := MergeSort(items[:x])
+	r_arr, r := MergeSort(items[x:])
+	result, m := merge(l_arr, r_arr, x)
 	if l+r+m > 100000000 {
 		return result, -1
 	}
@@ -50,20 +54,11 @@ func main() {
 		}
 		r <- result
 
-	}(r, 10000000)
+	}(r, 20000)
 
-	s1, i1 := MergeSort([]int{-1, 6, 3, 4, 7, 4})
-	fmt.Println(s1, i1)
-
-	s2, i2 := MergeSort([]int{1, 20, 6, 4, 5})
-	fmt.Println(s2, i2)
-
-	s3, i3 := MergeSort([]int{3, 1, 2})
-	fmt.Println(s3, i3)
-
-	s4, i4 := MergeSort([]int{8, 4, 2, 1})
-	fmt.Println(s4, i4)
 	a := <-r
+	start := time.Now()
 	_, i5 := MergeSort(a)
-	fmt.Println(i5)
+	elapsed := time.Since(start)
+	fmt.Println(i5, elapsed)
 }
