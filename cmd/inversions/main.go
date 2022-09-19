@@ -1,11 +1,6 @@
 package main
 
-import (
-	"fmt"
-	"time"
-)
-
-func merge(a []int, b []int, m int) ([]int, int) {
+func merge(a []int, b []int) ([]int, int) {
 	result := make([]int, 0, len(a)+len(b))
 	//result := []int{}
 	i := 0
@@ -18,7 +13,7 @@ func merge(a []int, b []int, m int) ([]int, int) {
 		} else {
 			result = append(result, b[j])
 			j++
-			inv += m - i
+			inv += len(a) - i
 		}
 	}
 	for ; i < len(a); i++ {
@@ -37,7 +32,7 @@ func MergeSort(items []int) ([]int, int) {
 	x := len(items) / 2
 	l_arr, l := MergeSort(items[:x])
 	r_arr, r := MergeSort(items[x:])
-	result, m := merge(l_arr, r_arr, x)
+	result, m := merge(l_arr, r_arr)
 	if l+r+m > 100000000 {
 		return result, -1
 	}
@@ -54,11 +49,11 @@ func main() {
 		}
 		r <- result
 
-	}(r, 20000)
+	}(r, 2000000)
 
 	a := <-r
-	start := time.Now()
-	_, i5 := MergeSort(a)
-	elapsed := time.Since(start)
-	fmt.Println(i5, elapsed)
+	//start := time.Now()
+	MergeSort(a)
+	//elapsed := time.Since(start)
+	//fmt.Println(i5, elapsed)
 }
