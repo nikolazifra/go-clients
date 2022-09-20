@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 )
 
@@ -55,9 +56,86 @@ func SpecialArray(n int, arr []int) []int {
 	//Insert your code here
 }
 
+func toMap(a []int) map[int]int {
+	result := make(map[int]int, len(a))
+	for _, val := range a {
+		if cnt, found := result[val]; found {
+			result[val] = cnt + 1
+		} else {
+			result[val] = 1
+		}
+
+	}
+	return result
+
+}
+
+func FirstUnique(A []int) int {
+	m := toMap(A)
+	for _, val := range A {
+		if cnt, found := m[val]; found && cnt == 1 {
+			return val
+		}
+	}
+	return -1
+}
+
+func Solution1(A []int) int {
+	return FirstUnique(A)
+}
+
+func Solution2(A, B int) string {
+	// if A>B append "aab"
+	// if B>A append "bba"
+	// if B=A append "ab"
+	// aab (3,2) // aab (1,1) //ab
+	var sb bytes.Buffer
+	for 0 < A || 0 < B {
+		if A > B {
+			if A > 0 {
+				sb.WriteString("a")
+				A -= 1
+			}
+			if A > 0 {
+				sb.WriteString("a")
+				A -= 1
+			}
+			if B > 0 {
+				sb.WriteString("b")
+				B -= 1
+			}
+		} else if B > A {
+			if B > 0 {
+				sb.WriteString("b")
+				B -= 1
+			}
+			if B > 0 {
+				sb.WriteString("b")
+				B -= 1
+			}
+			if A > 0 {
+				sb.WriteString("a")
+				A -= 1
+			}
+		} else {
+			if A > 0 {
+				sb.WriteString("a")
+				A -= 1
+			}
+			if B > 0 {
+				sb.WriteString("b")
+				B -= 1
+			}
+		}
+	}
+	return sb.String()
+}
+
 func main() {
 	fmt.Println("Result is", SpecialArray(3, []int{2, 10, 23}))
 	fmt.Println("Result is", SpecialArray(5, []int{4, 5, 10, 14, 8}))
 	fmt.Println("Result is", SpecialArray(3, []int{3, 11, 97, 99}))
 	fmt.Println("Result is", SpecialArray(3, []int{12, 3, 43, 91, 72, 6, 53, 21, 9}))
+	fmt.Println("First unique ", FirstUnique([]int{1, 2, 1, 4, 1000000000, 4, 2}))
+	fmt.Println("String generation ", Solution2(1, 3))
 }
