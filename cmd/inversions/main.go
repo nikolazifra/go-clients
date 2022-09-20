@@ -1,5 +1,10 @@
 package main
 
+import (
+	"fmt"
+	"time"
+)
+
 func merge(a []int, b []int) ([]int, int) {
 	result := make([]int, 0, len(a)+len(b))
 	//result := []int{}
@@ -25,6 +30,34 @@ func merge(a []int, b []int) ([]int, int) {
 	return result, inv
 }
 
+func MergeSortP(items []int) chan []int {
+	x := len(items) / 2
+	l_chan := make(chan []int, 2)
+	r_chan := make(chan []int, 2)
+	r_res := make(chan []int, 2)
+	go func(a chan<- []int, c int) {
+		l_arr, l := MergeSort(items[:c])
+		a <- l_arr
+		a <- []int{l}
+	}(l_chan, x)
+	go func(a chan<- []int, c int) {
+		r_arr, r := MergeSort(items[c:])
+		a <- r_arr
+		a <- []int{r}
+	}(r_chan, x)
+	result, inv := merge(<-l_chan, <-r_chan)
+	l := (<-l_chan)[0]
+	r := (<-r_chan)[0]
+	if l+r+inv > 100000000 {
+		r_res <- result
+		r_res <- []int{-1}
+		return r_res
+	}
+	r_res <- result
+	r_res <- []int{l + r + inv}
+	return r_res
+}
+
 func MergeSort(items []int) ([]int, int) {
 	if len(items) < 2 {
 		return items, 0
@@ -44,16 +77,22 @@ func main() {
 	r := make(chan []int)
 	go func(r chan []int, n int) {
 		result := make([]int, 0, n-1)
-		for i := n; i >= 0; i-- {
+		for i := n; i >= 1; i-- {
 			result = append(result, i)
 		}
 		r <- result
 
-	}(r, 2000000)
+	}(r, 100000000)
 
 	a := <-r
-	//start := time.Now()
-	MergeSort(a)
-	//elapsed := time.Since(start)
-	//fmt.Println(i5, elapsed)
+	t := time.Now()
+	c := MergeSortP(a)
+	x := <-c
+	y := <-c
+	elapsed := time.Since(t)
+	fmt.Println("Parallel", elapsed, len(x), y[0])
+	t = time.Now()
+	a, inv := MergeSort(a)
+	elapsed = time.Since(t)
+	fmt.Println("Sequential", elapsed, len(a), inv)
 }
