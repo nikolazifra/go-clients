@@ -36,7 +36,7 @@ func sendTick(rateLimiter chan<- bool, k int, m map[string]string, mutex *sync.M
 	fmt.Println("-- Releasing mutex lock")
 	mutex.Unlock()
 
-	rate := time.Tick(time.Second)
+	rate := time.Tick(time.Second / 10)
 	for range rate {
 		rateLimiter <- true
 		//fmt.Println("Limmiting rate at", time.Now())
@@ -58,18 +58,21 @@ func main() {
 	rateLimiter := make(chan bool, 3)
 	sm := make(map[string]string, 4000000)
 	var mutex *sync.Mutex = &sync.Mutex{}
-	for i := 0; i < 4000000; i++ {
+	for i := 0; i < 2; i++ {
 		go sendTick(rateLimiter, i, sm, mutex)
 	}
-	limitter := rate.NewLimiter(10, 1)
+	limitter := rate.NewLimiter(4, 5)
 	for {
 		//fmt.Println("Waiting to be processed:", len(rateLimiter))
 		if !limitter.Allow() {
 			fmt.Println("Dropping requests...")
-			time.Sleep(time.Second)
+			//time.Sleep(time.Second / 10)
+			time.Sleep(time.Millisecond * 100)
 			continue
+		} else {
+			receive(rateLimiter)
 		}
-		receive(rateLimiter)
+
 		// Sleep to not perform the default action too much
 	}
 }

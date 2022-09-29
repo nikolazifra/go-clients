@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"strings"
 )
 
 func primeNums(start, end int) []int {
@@ -131,6 +132,22 @@ func Solution2(A, B int) string {
 	return sb.String()
 }
 
+func Reverse(s string) string {
+	r := []rune(s)
+	for i, j := 0, len(r)-1; i < j; i, j = i+1, j-1 {
+		r[i], r[j] = r[j], r[i]
+	}
+	return string(r)
+}
+
+func ReverseWords(s string) string {
+	r := strings.Split(s, " ")
+	for i, j := 0, len(r)-1; i < j; i, j = i+1, j-1 {
+		r[i], r[j] = r[j], r[i]
+	}
+	return strings.Join(r, " ")
+}
+
 func main() {
 	fmt.Println("Result is", SpecialArray(3, []int{2, 10, 23}))
 	fmt.Println("Result is", SpecialArray(5, []int{4, 5, 10, 14, 8}))
@@ -138,4 +155,6 @@ func main() {
 	fmt.Println("Result is", SpecialArray(3, []int{12, 3, 43, 91, 72, 6, 53, 21, 9}))
 	fmt.Println("First unique ", FirstUnique([]int{1, 2, 1, 4, 1000000000, 4, 2}))
 	fmt.Println("String generation ", Solution2(1, 3))
+	fmt.Println("Reverse string", Reverse("nikola"))
+	fmt.Println("Reverse string", ReverseWords("quick brown fox has jumped"))
 }
